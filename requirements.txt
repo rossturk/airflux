@@ -1,0 +1,4 @@
+libtmux
+rich-click
+GitPython
+requests
