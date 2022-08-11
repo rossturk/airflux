@@ -6,6 +6,7 @@ import rich_click as click
 from rich_click import style
 import git
 import requests
+import shutil
 import subprocess
 import venv
 
@@ -285,19 +286,21 @@ def stop():
 @click.command()
 def start():
     """Start a tmux session running Airflow components"""
-    #    export TMUX_TMPDIR=~/.tmux/tmp
-    #     if [ -e ~/.tmux/tmp ]; then
-    #         rm -rf ~/.tmux/tmp
-    #     fi
-    #     mkdir -p ~/.tmux/tmp
-    #     chmod 777 -R ~/.tmux/tmp
+    tmux_dir = os.getenv("HOME") + "/.tmux/tmp"
+
+    if os.path.exists(tmux_dir):
+        shutil.rmtree(tmux_dir)
+
+    os.makedirs(tmux_dir, 0o777)
 
     server = libtmux.Server()
+
     session = server.new_session(
         session_name="Airflux", kill_session=True, attach=False
     )
     session.set_option("mouse", "on")
-    session.set_environment('AIRFLOW_HOME', cwd)
+    session.set_environment("AIRFLOW_HOME", cwd)
+    session.set_environment("TMUX_TMPDIR", tmux_dir)
 
     window = session.new_window(attach=True, window_name="Main")
 
