@@ -1,2 +1,3 @@
-# airflux
-Airflow tmux wrapper
+# Airflux
+
+An installer and tmux session manager for Airflow
