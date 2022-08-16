@@ -325,7 +325,7 @@ def start():
 
 
 @click.group()
-@click.version_option("0.0.1dev2")
+@click.version_option("1.0.0")
 def main():
     pass
 
